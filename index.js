@@ -18,16 +18,6 @@ function collect(amount, nominals) {
   let notesNeeded = Math.floor(amount / currentNominal);
   let numberOfNotes = Math.min(notesNeeded, availableNotes);
 
-  for (let i = numberOfNotes; i >= 0; i--) {
-    let result = collect(amount - i * currentNominal, nominals.slice(1));
-
-    if (result) {
-      return i ? { [currentNominal]: i, ...result } : result;
-    }
-  }
-
-  //   return result;
-
   console.group("Count");
   console.log("amount", amount);
   console.log("nominals", nominals);
@@ -36,6 +26,14 @@ function collect(amount, nominals) {
   console.log("notesNeeded", notesNeeded);
   console.log("numberOfNotes", numberOfNotes);
   console.groupEnd();
+
+  for (let i = numberOfNotes; i >= 0; i--) {
+    let result = collect(amount - i * currentNominal, nominals.slice(1));
+
+    if (result) {
+      return i ? { [currentNominal]: i, ...result } : result;
+    }
+  }
 }
 
 let limits = { 1000: 5, 500: 2, 100: 5, 50: 100, 30: 6 };
