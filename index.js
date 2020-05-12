@@ -1,19 +1,50 @@
 console.log("Hello World !");
 
-let iWantToGet = (amountRequired, limits) => {};
+let iWantToGet = (amountRequired, limits) => {
+  let nominals = Object.keys(limits)
+    .map(Number)
+    .sort((a, b) => b - a);
+  console.log("nominals", nominals);
+
+  return collect(amountRequired, nominals);
+};
+
+function collect(amount, nominals) {
+  if (amount === 0) return {};
+  if (!nominals.length) return;
+
+  let currentNominal = nominals[0];
+  let availableNotes = limits[currentNominal];
+  let notesNeeded = Math.floor(amount / currentNominal);
+  let numberOfNotes = Math.min(notesNeeded, availableNotes);
+
+  let result = collect(
+    amount - numberOfNotes * currentNominal,
+    nominals.slice(1)
+  );
+
+  if (result) {
+    return numberOfNotes
+      ? { [currentNominal]: numberOfNotes, ...result }
+      : result;
+  }
+  //   return result;
+
+  console.group("Count");
+  console.log("amount", amount);
+  console.log("nominals", nominals);
+  console.log("currentNominal", currentNominal);
+  console.log("availableNotes", availableNotes);
+  console.log("notesNeeded", notesNeeded);
+  console.log("numberOfNotes", numberOfNotes);
+  console.groupEnd();
+}
 
 let limits = { 1000: 5, 500: 2, 100: 5, 50: 100, 30: 6 };
+let limits1 = { 100: 5, 50: 100, 30: 6 };
 
-
-// const allMoneyInATM = Object.entries(limits).reduce(
-//   acc,
-//   (el) => acc + el[0] * el[1]
-// );
-// console.log("allMoneyInATM", allMoneyInATM);
-
-// console.log('limits', limits)
-
-console.log(iWantToGet(230, limits)); // {30: 1, 100: 2}
+// console.log(iWantToGet(230, limits)); // {30: 1, 100: 2}
+console.log(iWantToGet(830, limits1)); // {30: 1, 100: 2}
 // console.log(iWantToGet(1000, limits)); //
 // console.log(iWantToGet(200, limits)); //
 // console.log(iWantToGet(150, limits)); //
@@ -63,3 +94,4 @@ console.log(iWantToGet(230, limits)); // {30: 1, 100: 2}
 // console.log("abc", abc);
 // const abcUnique = new Set(abc);
 // console.log("abcUnique", abcUnique);
+// ===========================================
