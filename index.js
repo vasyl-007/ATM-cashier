@@ -28,9 +28,27 @@ function collect(amount, nominals) {
   console.groupEnd();
 
   for (let i = numberOfNotes; i >= 0; i--) {
+    console.log(
+      "Start i",
+      i,
+      "numberofNotes",
+      numberOfNotes,
+      "currentNominal",
+      currentNominal
+    );
     let result = collect(amount - i * currentNominal, nominals.slice(1));
 
     if (result) {
+      console.log(
+        "i",
+        i,
+        "numberofNotes",
+        numberOfNotes,
+        "currentNominal",
+        currentNominal,
+        "result",
+        result
+      );
       return i ? { [currentNominal]: i, ...result } : result;
     }
   }
@@ -42,7 +60,7 @@ let limits = { 1000: 5, 500: 2, 100: 5, 50: 100, 30: 6 };
 // console.log(iWantToGet(230, limits)); // {30: 1, 100: 2}
 // console.log(iWantToGet(830, limits1)); // {30: 1, 50: 6, 100: 5}
 // console.log(iWantToGet(1000, limits)); // {1000: 1}
-console.log(iWantToGet(280, limits)); //  {100: 2}
+console.log(iWantToGet(120, limits)); //  {100: 2}
 // console.log(iWantToGet(150, limits)); //  {50: 1, 100: 1}
 // console.log(iWantToGet(50000, limits)); //
 // console.log(iWantToGet(120, limits));
